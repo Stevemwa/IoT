@@ -1,0 +1,49 @@
+<!DOCTYPE HTML><html>
+      <head>
+        <title>ESP32 Web Input</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+          body { font-family: Arial, sans-serif; margin: 20px; background-color: black; color: red; }
+          h2 { color:crimson; }
+          form { margin-bottom: 20px; color:orange;}
+          input[type="text"] { padding: 5px; margin: 5px 0; width: 200px; border-color: aquamarine }
+          input[type="submit"] { padding: 8px 10px; border-radius: 12%; border-color: aquamarine; background-color:aqua;}
+          .section { margin-bottom: 20px; }
+          .section label { display: block; margin-bottom: 5px; }
+        </style>
+      </head>
+      <body>
+        <h2>SLAMBOT COMMAND LINE</h2>
+        <div class="section">
+          <h3>Distance and Speed</h3>
+          <form action="/get">
+            <label for="distance">Distance:(m)</label>
+            <input type="text" id="distance" name="distance"><br>
+            <label for="speed">Speed:(m/s)</label>
+            <input type="text" id="speed" name="speed"><br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+        <div class="section">
+          <h3>Turn Angle</h3>
+          <form action="/angle">
+            <label for="angle">Angle:(degrees)</label>
+            <input type="text" id="angle" name="angle"><br>
+            <input type="submit" value="Submit">
+          </form>
+        </div>
+        <div class="section">
+          <h3>Serial2 Output</h3>
+          <div id="serialOutput"></div>
+        </div>
+        <script>
+          setInterval(function() {
+            fetch('/serial2')
+              .then(response => response.text())
+              .then(data => {
+                document.getElementById('serialOutput').innerText = data;
+              });
+          }, 1000);
+        </script>
+      </body>
+      </html>
